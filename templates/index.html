@@ -1,0 +1,70 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<div class="container">
+  <h1>Book Search and Recommendation</h1>
+  <div class="form-group mt-4">
+    <label for="search2" style="font-weight: bold"
+      >Pencarian menggunakan Keywords</label
+    >
+    <input
+      type="text"
+      id="search2"
+      class="form-control"
+      placeholder="Search for a book..."
+    />
+    <button class="btn btn-secondary mt-2" onclick="searchBooks()">
+      Search
+    </button>
+  </div>
+
+  <table id="recommendations2" class="table table-striped mt-4">
+    <thead>
+      <tr id="searchEngine2Header">
+        <th>Judul</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="recommendations2Body"></tbody>
+  </table>
+
+  <div class="form-group">
+    <label for="search" style="font-weight: bold">Pencarian Rekomendasi</label>
+    <input
+      type="text"
+      id="search"
+      class="form-control"
+      oninput="autocompleteSearch()"
+      list="suggestions"
+      placeholder="Search for a book..."
+    />
+    <datalist id="suggestions"></datalist>
+    <button class="btn btn-primary mt-2" onclick="getRecommendations()">
+      Get Recommendations
+    </button>
+  </div>
+
+  <table id="recommendations" class="table table-striped mt-4">
+    <thead>
+      <tr>
+        <th>Judul</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="recommendations1"></tbody>
+  </table>
+</div>
+
+<!-- Modal for displaying book details -->
+<div id="bookModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <table id="bookDetails" class="table table-bordered"></table>
+  </div>
+</div>
+
+{% endblock %}
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script src="/static/main.js"></script>

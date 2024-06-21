@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}Data Buku{% endblock %}
+
+{% block content %}
+      <h1>Data Buku</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Judul</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books %}
+          <tr>
+            <td>{{ book.Judul }}</td>
+            <td>
+              <button
+                class="btn btn-primary"
+                onclick="viewBook('{{ book.Judul }}')"
+              >
+                View
+              </button>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Modal for displaying book details -->
+    <div id="bookModal" class="modal">
+      <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <table id="bookDetails" class="table table-bordered"></table>
+      </div>
+    </div>
+
+    {% endblock %}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      function viewBook(title) {
+        $.get("/details", { title: title }, function (data) {
+          if (data.error) {
+            alert(data.error);
+          } else {
+            let details = `
+                        <tr><th>NoPanggil</th><td>${data.NoPanggil}</td></tr>
+                        <tr><th>NoInduk</th><td>${data.NoInduk}</td></tr>
+                        <tr><th>TglOlah</th><td>${data.TglOlah}</td></tr>
+                        <tr><th>NRP</th><td>${data.NRP}</td></tr>
+                        <tr><th>Nama</th><td>${data.Nama}</td></tr>
+                        <tr><th>Jurusan</th><td>${data.Jurusan}</td></tr>
+                        <tr><th>Judul</th><td>${data.Judul}</td></tr>
+                        <tr><th>Pembimbing1</th><td>${data.Pembimbing1}</td></tr>
+                        <tr><th>Pembimbing2</th><td>${data.Pembimbing2}</td></tr>
+                        <tr><th>Pembimbing3</th><td>${data.Pembimbing3}</td></tr>
+                        <tr><th>Keywords</th><td>${data.Keywords}</td></tr>
+                        <tr><th>Abstrak</th><td>${data.Abstrak}</td></tr>
+                    `;
+            $("#bookDetails").html(details);
+            $("#bookModal").css("display", "block");
+          }
+        });
+      }
+
+      function closeModal() {
+        $("#bookModal").css("display", "none");
+      }
+
+      window.onclick = function (event) {
+        if (event.target == document.getElementById("bookModal")) {
+          closeModal();
+        }
+      };
+    </script>
+  </body>
+</html>
